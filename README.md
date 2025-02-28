@@ -33,8 +33,8 @@ Este é um sistema para cadastro de candidatos e concursos a partir de arquivos 
 
 ## Estrutura do Projeto
 
-- **`Repository/ReadCandidato.cs`**: Contém a lógica para ler os dados do arquivo CSV de candidatos e inserir no banco de dados.
-- **`Repository/ReadConcurso.cs`**: Contém a lógica para ler os dados do arquivo CSV de concursos e inserir no banco de dados.
-- **`Data/BaseDB.cs`**: Contém o código para interagir com o banco de dados PostgreSQL.
-- **`Data/Files/`**: Contém os arquivos CSV a serem processados.
+- **`Repository/Files`**: Contém a lógica para ler os dados do arquivo CSV de candidatos e inserir no banco de dados.
+- **`Service/Files`**: Serve para abstrair o codigo, separando a chamada dos serviços da logica.
+- **`Data/Files`**: Contém o código para interagir com o banco de dados PostgreSQL, bem como os arquivos fonte dos dados.
+- **`Controller/Files`**: É a camada mais externa e não sabe oque acontece nas seguintes.
 
