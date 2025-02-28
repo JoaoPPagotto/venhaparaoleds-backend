@@ -7,3 +7,5 @@
 /.vs/venhaparaoleds-backend/FileContentIndex
 /.vs/venhaparaoleds-backend/v17
 /.vs/VSWorkspaceState.json
+/.vs
+/venhaparaoleds-backend-C#/obj/Release/net8.0
