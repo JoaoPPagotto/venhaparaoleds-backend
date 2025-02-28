@@ -8,6 +8,6 @@ namespace venhaparaoleds_backend.src.Busisness.Repositorys.Interfaces
 {
     public interface ICandidatoPorCodigoConcurso
     {
-        public void CandidatoPorCodigo(List<Candidato> candidatos, List<Concurso> concursos);
+        public void GerarArquivoCandidatoPorCodigoConcurso();
     }
 }

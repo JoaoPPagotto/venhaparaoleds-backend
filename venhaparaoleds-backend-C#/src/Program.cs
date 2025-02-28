@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using venhaparaoleds_backend.src.Application;
 using venhaparaoleds_backend.src.Controller;
 using venhaparaoleds_backend.src.Busisness.Entities;
+using venhaparaoleds_backend.src.Busisness.Data;
 
 namespace venhaparaoleds_backend.src
 {
@@ -14,22 +14,24 @@ namespace venhaparaoleds_backend.src
         {
             Console.WriteLine("Inicializando aplicação...");
 
+            BaseDB db = BaseDB.Instance;
+
             CandidatoController candidatoController = new CandidatoController();
             ConcursoController concursoController = new ConcursoController();
 
             List<Concurso> concursos = new List<Concurso>();
             List<Candidato> candidatos = new List<Candidato>();
 
-            concursos = concursoController.GetConcursos();
-            Console.WriteLine("Arquivo de Concursos lido");
+            concursoController.ReadFileConcursos();
+            Console.WriteLine("Arquivo de Concursos lido, dados no banco");
 
-            candidatos = candidatoController.GetCandidatos();
-            Console.WriteLine("Arquivo de Candidatos lido");
+            candidatoController.ReadFileCandidatos();
+            Console.WriteLine("Arquivo de Candidatos lido, dados no banco");
 
-            candidatoController.CandidatoPorCodigo(candidatos, concursos);
+            candidatoController.CandidatoPorCodigo();
             Console.WriteLine("Arquivo de CandidatosPorCodigo Gerado");
 
-            concursoController.ConcursoPorCPF(candidatos, concursos);
+            concursoController.ConcursoPorCPF();
             Console.WriteLine("Arquivo de ConcursosPorCPF Gerado");
         }
     }

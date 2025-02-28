@@ -12,12 +12,12 @@ namespace venhaparaoleds_backend.src.Services.Implementations
 {
     public class CandidatoService : ICandidatoService
     {
-        public dynamic GetData()
+        public void ReadData()
         {
             try
             {
                 IReadCandidato readData = new ReadCandidato();
-                return readData.ReadCandidato();
+                readData.ReadCandidato();
             }
             catch (Exception ex)
             {
@@ -25,10 +25,10 @@ namespace venhaparaoleds_backend.src.Services.Implementations
             }
         }
 
-        public void CandidatoPorCodigo(List<Candidato> candidatos, List<Concurso> concursos)
+        public void CandidatoPorCodigo()
         {
             ICandidatoPorCodigoConcurso candidatoPorCod = new CandidatoPorCodigoConcurso();
-            candidatoPorCod.CandidatoPorCodigo(candidatos, concursos);
+            candidatoPorCod.GerarArquivoCandidatoPorCodigoConcurso();
         }
     }
 }

@@ -9,8 +9,8 @@ namespace venhaparaoleds_backend.src.Services.Interfaces
 {
     public interface ICandidatoService
     {
-        public dynamic GetData();
-        public void CandidatoPorCodigo(List<Candidato> candidatos, List<Concurso> concursos);
+        public void ReadData();
+        public void CandidatoPorCodigo();
     }
 }
 

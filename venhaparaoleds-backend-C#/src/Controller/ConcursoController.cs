@@ -10,16 +10,16 @@ namespace venhaparaoleds_backend.src.Controller
 {
     public class ConcursoController
     {
-        public dynamic GetConcursos()
+        public void ReadFileConcursos()
         {
             IConcursoService concursoService = new ConcursoService();
-            return concursoService.GetData();
+            concursoService.ReadData();
         }
 
-        public void ConcursoPorCPF(List<Candidato> candidatos, List<Concurso> concursos)
+        public void ConcursoPorCPF()
         {
             IConcursoService concursoService = new ConcursoService();
-            concursoService.ConcursoPorCPF(candidatos, concursos);
+            concursoService.ConcursoPorCPF();
         }
     }
 }

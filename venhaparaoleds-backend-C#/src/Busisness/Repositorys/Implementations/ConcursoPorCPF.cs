@@ -5,35 +5,37 @@ using System.Linq;
 using System.Text;
 using venhaparaoleds_backend.src.Busisness.Repositorys.Interfaces;
 using venhaparaoleds_backend.src.Busisness.Entities;
+using venhaparaoleds_backend.src.Busisness.Data;
+using Npgsql;
+using System.Collections.Specialized;
 
 namespace venhaparaoleds_backend.src.Busisness.Repositorys.Implementations
 {
     public class ConcursoPorCPF : IConcursoPorCPF
     {
-        private string caminhoArquivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../src/Busisness/Data/concurso_PorCPF.txt");
+        private static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../src/Busisness/Data/concurso_PorCPF.txt");
 
-        void IConcursoPorCPF.ConcursoPorCPF(List<Candidato> candidatos, List<Concurso> concursos)
+        void IConcursoPorCPF.GerarArquivoConcursoPorCPF()
         {
-            try
+            using (var conn = new NpgsqlConnection(BaseDB.StringConnection))
             {
-                using (StreamWriter writer = new StreamWriter(caminhoArquivo, true))
+                conn.Open();
+                string sql = @"SELECT c.nome, c.cpf, array_to_string(c.profissoes, ', ') as profissoes, co.orgao, co.edital, co.codigo 
+                          FROM candidatos c 
+                          JOIN concursos co ON c.profissoes && co.vagas 
+                          ORDER BY c.cpf;";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                using (var reader = cmd.ExecuteReader())
                 {
-                    foreach (var candidato in candidatos)
+                    using (var sw = new StreamWriter(filePath))
                     {
-                        writer.WriteLine($"Concursos para {candidato.Nome} ({candidato.CPF}):");
-                        foreach (var concurso in concursos)
+                        while (reader.Read())
                         {
-                            if (candidato.Profissoes.Any(prof => concurso.Vagas.Contains(prof)))
-                            {
-                                writer.WriteLine($"Órgão: {concurso.Orgao}, Edital: {concurso.Edital}, Código: {concurso.Codigo}");
-                            }
+                            sw.WriteLine($"{reader["cpf"]} -> {reader["nome"]}, {reader["profissoes"]} | {reader["orgao"]}, {reader["edital"]}, {reader["codigo"]}");
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Fala ao criar arquivo de resultado 'concurso_PorCPF' mensagem original: " + ex.Message);
             }
         }
     }

@@ -5,37 +5,39 @@ using System.Linq;
 using System.Text;
 using venhaparaoleds_backend.src.Busisness.Repositorys.Interfaces;
 using venhaparaoleds_backend.src.Busisness.Entities;
+using venhaparaoleds_backend.src.Busisness.Data;
+using Npgsql;
 
 namespace venhaparaoleds_backend.src.Busisness.Repositorys.Implementations
 {
     public class CandidatoPorCodigoConcurso : ICandidatoPorCodigoConcurso
     {
-        private string caminhoArquivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../src/Busisness/Data/candidatos_PorCodigo.txt");
+        private static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../src/Busisness/Data/candidatos_PorCodigo.txt");
 
-        public void CandidatoPorCodigo(List<Candidato> candidatos, List<Concurso> concursos)
+        void ICandidatoPorCodigoConcurso.GerarArquivoCandidatoPorCodigoConcurso()
         {
-            try
+            using (var conn = new NpgsqlConnection(BaseDB.StringConnection))
             {
-                using (StreamWriter writer = new StreamWriter(caminhoArquivo, true))
+                conn.Open();
+                string sql = @"SELECT co.orgao, co.codigo, array_to_string(co.vagas, ', ') as vagas, c.nome, c.cpf, array_to_string(c.profissoes, ', ') as profissoes 
+                          FROM concursos co 
+                          JOIN candidatos c ON co.vagas && c.profissoes 
+                          ORDER BY co.codigo;";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                using (var reader = cmd.ExecuteReader())
                 {
-                    foreach (var concurso in concursos)
+                    using (var sw = new StreamWriter(filePath))
                     {
-                        writer.WriteLine($"Candidatos para o concurso {concurso.Codigo} ({concurso.Orgao} - {concurso.Edital}):");
-                        foreach (var candidato in candidatos)
+                        while (reader.Read())
                         {
-                            if (candidato.Profissoes.Any(prof => concurso.Vagas.Contains(prof)))
-                            {
-                                writer.WriteLine($"Nome: {candidato.Nome}, Data de Nascimento: {candidato.DataNascimento}, CPF: {candidato.CPF}");
-                            }
+                            sw.WriteLine($"{reader["codigo"]} -> {reader["orgao"]}, {reader["vagas"]} | {reader["cpf"]}, {reader["nome"]}, {reader["profissoes"]}");
                         }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Fala ao criar arquivo de resultado 'candidatos_PorCodigo' mensagem original: " + ex.Message);
-            }
         }
+
     }
 }
 

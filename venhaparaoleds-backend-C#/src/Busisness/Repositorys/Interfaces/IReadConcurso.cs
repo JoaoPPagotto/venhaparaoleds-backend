@@ -8,7 +8,7 @@ namespace venhaparaoleds_backend.src.Busisness.Repositorys.Interfaces
 {
     public interface IReadConcurso
     {
-        public List<Concurso> ReadConcurso();
+        public void ReadConcurso();
     }
 }
 

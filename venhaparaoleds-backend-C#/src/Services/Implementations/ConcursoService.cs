@@ -12,12 +12,12 @@ namespace venhaparaoleds_backend.src.Services.Implementations
 {
     public class ConcursoService : IConcursoService
     {
-        public dynamic GetData()
+        public void ReadData()
         {
             try
             {
                 IReadConcurso readData = new ReadConcurso();
-                return readData.ReadConcurso();
+                readData.ReadConcurso();
             }
             catch (Exception ex)
             {
@@ -25,10 +25,10 @@ namespace venhaparaoleds_backend.src.Services.Implementations
             }
         }
 
-        public void ConcursoPorCPF(List<Candidato> candidatos, List<Concurso> concursos)
+        public void ConcursoPorCPF()
         {
             IConcursoPorCPF concursoPorCPF = new ConcursoPorCPF();
-            concursoPorCPF.ConcursoPorCPF(candidatos, concursos);
+            concursoPorCPF.GerarArquivoConcursoPorCPF();
         }
     }
 }

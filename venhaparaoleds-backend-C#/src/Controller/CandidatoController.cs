@@ -11,16 +11,16 @@ namespace venhaparaoleds_backend.src.Controller
 {
     public class CandidatoController
     {
-        public dynamic GetCandidatos()
+        public void ReadFileCandidatos()
         {
             ICandidatoService candidatoService = new CandidatoService();
-            return candidatoService.GetData();
+            candidatoService.ReadData();
         }
 
-        public void CandidatoPorCodigo(List<Candidato> candidatos, List<Concurso> concursos)
+        public void CandidatoPorCodigo()
         {
             ICandidatoService candidatoService = new CandidatoService();
-            candidatoService.CandidatoPorCodigo(candidatos, concursos);
+            candidatoService.CandidatoPorCodigo();
         }
     }
 }
