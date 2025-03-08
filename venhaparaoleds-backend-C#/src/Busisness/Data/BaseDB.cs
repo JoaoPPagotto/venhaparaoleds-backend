@@ -13,7 +13,7 @@ namespace venhaparaoleds_backend.src.Busisness.Data
         private static readonly object lockObject = new object();
 
         // String de conexão para acessar o banco concursos
-        public static string StringConnection = "Host=pg-26ff4757-pgtt.d.aivencloud.com;Port=21535;Database=defaultdb;Username=avnadmin;Password=AVNS_GJ3iOczOLDzWvDsdsER;SSL Mode=Require";
+        public static string StringConnection = "";
 
         // Propriedade para acessar a instância única
         public static BaseDB Instance
